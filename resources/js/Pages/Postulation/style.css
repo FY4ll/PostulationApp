@@ -1,0 +1,134 @@
+@import '@radix-ui/colors/blackA.css';
+@import '@radix-ui/colors/violet.css';
+@import '@radix-ui/colors/mauve.css';
+
+/* reset */
+input,
+textarea,
+button {
+    all: unset;
+    box-sizing: border-box;
+}
+
+.FormRoot {
+    width: 260px;
+}
+
+.FormField {
+    display: grid;
+    margin-bottom: 10px;
+}
+
+.FormLabel {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 35px;
+    color: #000000;
+}
+
+.FormMessage {
+    font-size: 13px;
+    color: #000000;
+    opacity: 0.8;
+}
+
+.Input,
+.Textarea {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+
+    font-size: 15px;
+    color: #000000;
+    background-color: var(--blackA5);
+    box-shadow: 0 0 0 1px var(--blackA9);
+}
+
+.Input:hover,
+.Textarea:hover {
+    box-shadow: 0 0 0 1px black;
+}
+
+.Input:focus,
+.Textarea:focus {
+    box-shadow: 0 0 0 2px black;
+}
+
+.Input::selection,
+.Textarea::selection {
+    background-color: var(--blackA9);
+    color: #000000;
+}
+
+.Input {
+    padding: 0 10px;
+    height: 35px;
+    line-height: 1;
+}
+
+.Textarea {
+    resize: none;
+    padding: 10px;
+}
+
+.Button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    padding: 0 15px;
+    font-size: 15px;
+    line-height: 1;
+    font-weight: 500;
+    height: 35px;
+    width: 100%;
+
+    background-color: white;
+    color: var(--violet11);
+    box-shadow: 0 2px 10px var(--blackA7);
+}
+
+.Button:hover {
+    background-color: var(--mauve3);
+}
+
+.Button:focus {
+    box-shadow: 0 0 0 2px black;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.radio-input {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    outline: none;
+    margin-right: 8px;
+    background-color: #f1f1f1;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.radio-input:checked {
+    background-color: #e9cfaa;
+    border-color: #e9cfaa;
+}
+
+.radio-input:hover {
+    background-color: #d5d5d5;
+}
+
+.radio-label {
+    margin-bottom: 8px;
+}
+
+.radio-input:focus {
+    outline: none;
+}
+
