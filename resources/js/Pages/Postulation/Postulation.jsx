@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Form from '@radix-ui/react-form';
+import {Label} from '@radix-ui/react-form';
 import './style.css';
-import {Label} from "@radix-ui/react-form";
 
 export default function Postulation() {
     return (
@@ -39,10 +39,12 @@ export default function Postulation() {
                     <input className="Input" type="email" required/>
                 </Form.Control>
             </Form.Field>
+
+
             <Form.Field name="Dropdown">
                 <Label className="FormLabel">Apprentissage</Label>
                 <Form.Message className="FormMessage" match="valueMissing">
-                    Veuillez selectioner un apprentissage
+                    Veuillez sélectionner un apprentissage
                 </Form.Message>
                 <Form.Control asChild>
                     <select name="Apprentissage" id="job" className="Input" required>
@@ -52,37 +54,60 @@ export default function Postulation() {
                     </select>
                 </Form.Control>
             </Form.Field>
-            <Form.Field name="Dropdown">
-                <Label className="FormLabel">Status Professionnel</Label>
+            <Form.Field name="Radio">
+                <Label className="FormLabel">Emploi Actuel</Label>
                 <Form.Message className="FormMessage" match="valueMissing">
-                    Veuillez selectioner un status
+                    Veuillez sélectionner un statut
                 </Form.Message>
                 <Form.Control asChild>
                     <div className="radio-group">
                         <label htmlFor="option1" className="radio-label">Étudiant</label>
                         <input type="radio" id="option1" name="situation" value="etudiant" className="radio-input"/>
                         <label htmlFor="option2" className="radio-label">Employé</label>
-                        <input type="radio" id="option2" name="situation" value="Employé"
-                               className="radio-input"/>
+                        <input type="radio" id="option2" name="situation" value="Employe" className="radio-input"/>
                         <label htmlFor="option3" className="radio-label">Indépendant</label>
-                        <input type="radio" id="option3" name="situation" value="Independant"
-                               className="radio-input"/>
-
+                        <input type="radio" id="option3" name="situation" value="Independant" className="radio-input"/>
                         <label htmlFor="option4" className="radio-label">Sans emploi</label>
-                        <input type="radio" id="option4" name="situation" value="sans-emploi"
-                               className="radio-input"/>
+                        <input type="radio" id="option4" name="situation" value="sans-emploi" className="radio-input"/>
                     </div>
                 </Form.Control>
             </Form.Field>
-            <Form.Field className="FormField" name="question">
-                <div style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-between'}}>
-                    <Form.Label className="FormLabel">Question</Form.Label>
+            {/* Barre de téléchargement de fichier 1 */}
+            <Form.Field className="FormField" name="file1">
+                <div>
+                    <Form.Label className="FormLabel">CV</Form.Label>
                     <Form.Message className="FormMessage" match="valueMissing">
-                        Please enter a question
+                        Format PDF uniquement
                     </Form.Message>
                 </div>
                 <Form.Control asChild>
-                    <textarea className="Textarea" required/>
+                    <input className="Input" type="file" accept=".pdf" required/>
+                </Form.Control>
+            </Form.Field>
+
+            {/* Barre de téléchargement de fichier 2 */}
+            <Form.Field className="FormField" name="file2">
+                <div>
+                    <Form.Label className="FormLabel">Lettre de motivation</Form.Label>
+                    <Form.Message className="FormMessage" match="valueMissing">
+                        Format PDF uniquement
+                    </Form.Message>
+                </div>
+                <Form.Control asChild>
+                    <input className="Input" type="file" accept=".pdf" required/>
+                </Form.Control>
+            </Form.Field>
+
+            {/* Barre de téléchargement de fichier 3 */}
+            <Form.Field className="FormField" name="file3">
+                <div>
+                    <Form.Label className="FormLabel">Video de motivation</Form.Label>
+                    <Form.Message className="FormMessage" match="valueMissing">
+                        Format video uniquement
+                    </Form.Message>
+                </div>
+                <Form.Control asChild>
+                    <input className="Input" type="file" accept="video/*" required/>
                 </Form.Control>
             </Form.Field>
             <Form.Submit asChild>
@@ -91,6 +116,5 @@ export default function Postulation() {
                 </button>
             </Form.Submit>
         </Form.Root>
-
     );
 }
