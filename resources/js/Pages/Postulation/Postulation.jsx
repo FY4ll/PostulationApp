@@ -1,11 +1,26 @@
 import React from 'react';
 import * as Form from '@radix-ui/react-form';
 import {Label} from '@radix-ui/react-form';
+import axios from 'axios';
+
 import './style.css';
 
 export default function Postulation() {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.currentTarget);
+        const values = Object.fromEntries(formData.entries());
+        console.log(values)
+        try {
+            await axios.post('/postulation', values); // Envoyer les données à l'API
+            console.log('Postulation soumise avec succès');
+        } catch (error) {
+            console.error('Erreur lors de la soumission de la postulation', error);
+        }
+    };
     return (
-        <Form.Root className="FormRoot">
+        <Form.Root className="FormRoot" onSubmit={handleSubmit} action="/postulation" method="post">
             <Form.Field className="FormField" name="Nom">
                 <div style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-between'}}>
                     <Form.Label className="FormLabel">Nom</Form.Label>

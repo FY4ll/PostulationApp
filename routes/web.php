@@ -1,8 +1,8 @@
 <?php
 
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/postulation', function () {
     return Inertia::render('Postulation/Postulation');
 })->middleware(['auth', 'verified'])->name('postulation');
+Route::post('/postulation', [PostulationController::class, 'store']);
+
 
 require __DIR__ . '/auth.php';
-

@@ -27,9 +27,6 @@ export default function Authenticated({user, header, children}) {
                                 <NavLink href={route('profile.edit')}>
                                     Profile
                                 </NavLink>
-                                <NavLink method="post" href={route('logout')} as="button">
-                                    Log out
-                                </NavLink>
                             </div>
                         </div>
 
