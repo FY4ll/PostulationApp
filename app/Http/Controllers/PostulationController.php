@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Controller;
+namespace App\Http\Controllers;
+
 use App\Models\Postulation;
 use Illuminate\Http\Request;
 
@@ -9,34 +10,50 @@ class PostulationController extends Controller
     public function store(Request $request)
     {
         // Valider les données du formulaire
+        $request->validate([
+            'Nom' => 'required',
+            'Prenom' => 'required',
+            'Mail' => 'required|email',
+            'Apprentissage' => 'required',
+            'situation' => 'required',
+            'file1' => 'file',
+            'file2' => 'file',
+            'file3' => 'file',
+        ]);
 
         // Enregistrer les données de la postulation
         $postulation = new Postulation();
         $postulation->nom = $request->input('Nom');
-        $postulation->prenom = $request->input('Prénom');
+        $postulation->prenom = $request->input('Prenom');
         $postulation->mail = $request->input('Mail');
-        $postulation->apprentissage = $request->input('Dropdown');
-        $postulation->situation = $request->input('Radio');
-        $postulation->save();
+        $postulation->apprentissage = $request->input('Apprentissage');
+        $postulation->situation = $request->input('situation');
 
         // Gérer les fichiers
         if ($request->hasFile('file1')) {
-            $cvPath = $request->file('file1')->store('postulations');
-            $postulation->cv_path = $cvPath;
+            $cvFile = $request->file('file1');
+            $cvFileName = $request->input('Nom') . '_' . $request->input('Prenom') . "_CV." . $cvFile->getClientOriginalExtension();
+            $cvFilePath = $cvFile->storeAs($cvFileName);
+            $postulation->cv_path = $cvFilePath;
         }
 
         if ($request->hasFile('file2')) {
-            $motivationPath = $request->file('file2')->store('postulations');
-            $postulation->motivation_path = $motivationPath;
+            $motivationFile = $request->file('file2');
+            $motivationFileName = $request->input('Nom') . '_' . $request->input('Prenom') . "_LM." . $motivationFile->getClientOriginalExtension();
+            $motivationFilePath = $motivationFile->storeAs($motivationFileName);
+            $postulation->motivation_path = $motivationFilePath;
         }
 
         if ($request->hasFile('file3')) {
-            $videoPath = $request->file('file3')->store('postulations');
-            $postulation->video_path = $videoPath;
+            $videoFile = $request->file('file3');
+            $videoFileName = $request->input('Nom') . '_' . $request->input('Prenom') . "_VM." . $videoFile->getClientOriginalExtension();
+            $videoFilePath = $videoFile->storeAs($videoFileName);
+            $postulation->video_path = $videoFilePath;
         }
 
         $postulation->save();
 
-        // Redirection ou réponse JSON appropriée
+        // Répondre avec succès
+        return redirect('/dashboard');
     }
 }

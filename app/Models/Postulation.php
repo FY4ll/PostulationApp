@@ -16,4 +16,6 @@ class Postulation extends Model
         'motivation_path',
         'video_path',
     ];
+
+
 }

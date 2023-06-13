@@ -42,7 +42,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/postulation', function () {
     return Inertia::render('Postulation/Postulation');
 })->middleware(['auth', 'verified'])->name('postulation');
-Route::post('/postulation', [PostulationController::class, 'store']);
 
 
 require __DIR__ . '/auth.php';

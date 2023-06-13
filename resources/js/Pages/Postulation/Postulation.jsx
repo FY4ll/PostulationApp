@@ -10,15 +10,16 @@ export default function Postulation() {
         event.preventDefault();
 
         const formData = new FormData(event.currentTarget);
-        const values = Object.fromEntries(formData.entries());
-        console.log(values)
+
         try {
-            await axios.post('/postulation', values); // Envoyer les données à l'API
+            await axios.post('api/postulation', formData);
             console.log('Postulation soumise avec succès');
+            window.location.href = '/dashboard'; // Redirection vers "/dashboard"
         } catch (error) {
             console.error('Erreur lors de la soumission de la postulation', error);
         }
     };
+
     return (
         <Form.Root className="FormRoot" onSubmit={handleSubmit} action="/postulation" method="post">
             <Form.Field className="FormField" name="Nom">
@@ -32,7 +33,7 @@ export default function Postulation() {
                     <input className="Input" type="text" required/>
                 </Form.Control>
             </Form.Field>
-            <Form.Field className="FormField" name="Prénom">
+            <Form.Field className="FormField" name="Prenom">
                 <div style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-between'}}>
                     <Form.Label className="FormLabel">Prénom</Form.Label>
                     <Form.Message className="FormMessage" match="valueMissing">
