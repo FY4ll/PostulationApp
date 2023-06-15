@@ -52,6 +52,7 @@ class PostulationController extends Controller
             $videoFilePath = $videoFile->storeAs($videoFileName);
             $postulation->video_path = $videoFilePath;
         }
+        $postulation->avancement_postulation = 1;
         $postulation->save();
 
         $user_id = $request->input('id');
