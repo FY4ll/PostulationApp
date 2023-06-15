@@ -27,7 +27,7 @@ export default function Authenticated({user, header, children}) {
                                 <NavLink href={route('profile.edit')} active={route().current('profile.edit')}>
                                     Profile
                                 </NavLink>
-                                <NavLink href={route('profile.edit')}>
+                                <NavLink href={route('mespostulation')} active={route().current('mespostulation')}>
                                     mes postulations
                                 </NavLink>
                             </div>

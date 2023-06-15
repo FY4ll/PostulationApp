@@ -46,5 +46,10 @@ Route::get('/postulation', function () {
         'user' => $user, // Passer les informations de l'utilisateur à votre composant React
     ]);
 })->middleware(['auth', 'verified'])->name('postulation');
+# Dashboard
+Route::get('/mespostulation', function () {
+    return Inertia::render('Postulation/Mespostulation');
+})->middleware(['auth', 'verified'])->name('mespostulation');
+
 
 require __DIR__ . '/auth.php';

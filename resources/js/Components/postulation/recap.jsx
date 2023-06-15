@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import {LinearProgress} from "@mui/material";
 
 export default function Recap({auth}) {
     const [numPostulations, setNumPostulations] = useState(null);
@@ -29,6 +30,10 @@ export default function Recap({auth}) {
     return (
         <div>
             Numéro de postulation : {numPostulations}
+            État de votre postulation:
+            <LinearProgress variant="determinate" value={10}/>
         </div>
+
+
     );
 }
