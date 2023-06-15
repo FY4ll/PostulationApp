@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Postulation;
+use App\Models\PostulationUser;
 use Illuminate\Http\Request;
 
 class PostulationController extends Controller
@@ -50,10 +52,16 @@ class PostulationController extends Controller
             $videoFilePath = $videoFile->storeAs($videoFileName);
             $postulation->video_path = $videoFilePath;
         }
-
         $postulation->save();
 
-        // Répondre avec succès
-        return redirect('/dashboard');
+        $user_id = $request->input('id');
+        $postulation_user = new PostulationUser();
+        $postulation_user->postulation_id = $postulation->id;
+        $postulation_user->user_id = $user_id;
+
+        $postulation_user->save();
+
+
+       return redirect('/dashboard');
     }
 }

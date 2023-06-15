@@ -1,24 +1,38 @@
-import React from 'react';
+import {useEffect, useState} from 'react';
 import * as Form from '@radix-ui/react-form';
 import {Label} from '@radix-ui/react-form';
 import axios from 'axios';
 
 import './style.css';
 
-export default function Postulation() {
+export default function Postulation({user}) {
+    const [userData, setUserData] = useState(null);
+    useEffect(() => {
+        if (user) {
+            // Mettre à jour les données de l'utilisateur lorsqu'il est disponible
+            setUserData(user);
+        }
+    }, [user]);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         const formData = new FormData(event.currentTarget);
-
+        formData.append('id', user.id);
         try {
             await axios.post('api/postulation', formData);
             console.log('Postulation soumise avec succès');
-            window.location.href = '/dashboard'; // Redirection vers "/dashboard"
         } catch (error) {
             console.error('Erreur lors de la soumission de la postulation', error);
         }
     };
+
+    if (!userData) {
+        // Afficher un message de chargement ou effectuer une autre action si les données de l'utilisateur ne sont pas encore disponibles
+        return <div>Loading...</div>;
+    }
+
+    // Utiliser les informations de l'utilisateur
+
 
     return (
         <Form.Root className="FormRoot" onSubmit={handleSubmit} action="/postulation" method="post">

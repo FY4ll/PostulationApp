@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -40,8 +41,10 @@ Route::middleware('auth')->group(function () {
 
 # Formulaire de postulation
 Route::get('/postulation', function () {
-    return Inertia::render('Postulation/Postulation');
+    $user = Auth::user(); // Récupérer l'utilisateur authentifié
+    return Inertia::render('Postulation/Postulation', [
+        'user' => $user, // Passer les informations de l'utilisateur à votre composant React
+    ]);
 })->middleware(['auth', 'verified'])->name('postulation');
-
 
 require __DIR__ . '/auth.php';

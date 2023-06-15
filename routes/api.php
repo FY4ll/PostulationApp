@@ -20,4 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/postulation', [PostulationController::class, 'store']);
-Route::post('/postulation_file', [PostulationController::class, 'storeFile']);
+
