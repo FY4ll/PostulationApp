@@ -1,5 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/react';
+import Recap from '../Components/postulation/recap'; // Chemin vers votre fichier contenant le composant Recap
 
 export default function Dashboard({auth}) {
     return (
@@ -9,6 +10,7 @@ export default function Dashboard({auth}) {
         >
             <Head title="Dashboard"/>
 
+            <Recap auth={auth}/>
 
         </AuthenticatedLayout>
     );

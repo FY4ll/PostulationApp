@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PostulationController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,4 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/postulation', [PostulationController::class, 'store']);
+
+Route::get('/user/postulations/count', function (Request $request) {
+    $userId = $request->query('user_id');
+    $postCounter = DB::table('postulation_user')->where('user_id' ,'=', $userId)->count();
+    return response()->json(['numPostulations' => $postCounter]);
+});
 
