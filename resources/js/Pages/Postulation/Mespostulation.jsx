@@ -18,6 +18,7 @@ export default function Mespostulation({auth}) {
 
     const handleEdit = (postulation) => {
         setSelectedPostulation(postulation);
+        getContentPostulation()
         setOpen(true);
     };
 
@@ -26,8 +27,21 @@ export default function Mespostulation({auth}) {
         setOpen(false);
     };
 
+    async function getContentPostulation(data) {
+        try {
+            const response = await axios.get('/api/user/postulations_content', {
+                params: {
+                    user_id: auth.user.id,
+                },
+            });
+            const {data} = response;
+        } catch (error) {
+            console.error('Erreur lors de la récupération des données', error);
+        }
+    }
+
     React.useEffect(() => {
-        async function getData() {
+        async function getDataOwnPostulation() {
             try {
                 const response = await axios.get('/api/user/postulation/select', {
                     params: {
@@ -41,7 +55,7 @@ export default function Mespostulation({auth}) {
             }
         }
 
-        getData();
+        getDataOwnPostulation();
     }, []);
 
     return (
