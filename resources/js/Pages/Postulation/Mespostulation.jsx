@@ -8,26 +8,42 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import axios from 'axios';
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from '@mui/material';
 
-function createData(
-    name = string,
-    calories = number,
-    fat = number,
-    carbs = number,
-    protein = number,
-) {
-    return {name, calories, fat, carbs, protein};
-}
+export default function Mespostulation({auth}) {
+    const [data, setData] = React.useState([]);
+    const [open, setOpen] = React.useState(false);
+    const [selectedPostulation, setSelectedPostulation] = React.useState(null);
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+    const handleEdit = (postulation) => {
+        setSelectedPostulation(postulation);
+        setOpen(true);
+    };
 
-export default function Dashboard({auth}) {
+    const handleClose = () => {
+        setSelectedPostulation(null);
+        setOpen(false);
+    };
+
+    React.useEffect(() => {
+        async function getData() {
+            try {
+                const response = await axios.get('/api/user/postulation/select', {
+                    params: {
+                        user_id: auth.user.id, // Remplacez "auth.user.id" par la variable contenant l'ID de l'utilisateur
+                    },
+                });
+                const {data} = response;
+                setData(data);
+            } catch (error) {
+                console.error('Erreur lors de la récupération des données', error);
+            }
+        }
+
+        getData();
+    }, []);
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -46,23 +62,36 @@ export default function Dashboard({auth}) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
-                            <TableRow
-                                key={row.name}
-                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {row.name}
-                                </TableCell>
-                                <TableCell align="right">{row.calories}</TableCell>
-                                <TableCell align="right">{row.fat}</TableCell>
-                                <TableCell align="right">{row.carbs}</TableCell>
-                                <TableCell align="right">{row.protein}</TableCell>
+                        {data.map((item, index) => (
+                            <TableRow key={index} onClick={() => handleEdit(item)} style={{cursor: 'pointer'}}>
+                                <TableCell>{index}</TableCell>
+                                <TableCell>{item.apprentissage}</TableCell>
+                                <TableCell>{item.created_at}</TableCell>
+                                <TableCell>{item.avancement_postulation}</TableCell>
+                                <TableCell>{item.updated_at}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Edit Postulation</DialogTitle>
+                <DialogContent>
+                    {/* Contenu du formulaire de modification */}
+                    {selectedPostulation && (
+                        <form>
+                            <h1> hello world</h1>
+                        </form>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleClose} variant="contained" color="primary">
+                        Save
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </AuthenticatedLayout>
     );
 }
