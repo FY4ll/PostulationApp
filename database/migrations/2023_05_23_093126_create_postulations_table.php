@@ -19,6 +19,7 @@ class CreatePostulationsTable extends Migration
             $table->string('motivation_path')->nullable();
             $table->string('video_path')->nullable();
             $table->timestamps();
+            $table->integer('avancement_postulation');
         });
     }
 
