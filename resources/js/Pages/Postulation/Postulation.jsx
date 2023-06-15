@@ -21,6 +21,7 @@ export default function Postulation({user}) {
         try {
             await axios.post('api/postulation', formData);
             console.log('Postulation soumise avec succès');
+            window.location.href = '/dashboard';
         } catch (error) {
             console.error('Erreur lors de la soumission de la postulation', error);
         }
