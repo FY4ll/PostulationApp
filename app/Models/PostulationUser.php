@@ -16,11 +16,11 @@ class PostulationUser extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function postulation()
     {
-        return $this->belongsTo(Postulation::class);
+        return $this->belongsTo(Postulation::class, 'postulation_id');
     }
 }
