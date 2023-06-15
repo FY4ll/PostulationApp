@@ -15,6 +15,7 @@ class Postulation extends Model
         'cv_path',
         'motivation_path',
         'video_path',
+        'avancement_postulation'
     ];
 
 
