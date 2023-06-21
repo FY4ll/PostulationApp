@@ -10,11 +10,15 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from '@mui/material';
+import * as Form from '@radix-ui/react-form';
 
 export default function Mespostulation({auth}) {
     const [postulations, setPostulations] = React.useState([]);
     const [selectedPostulation, setSelectedPostulation] = React.useState(null);
     const [openDialog, setOpenDialog] = React.useState(false);
+    const [openEditDialog, setOpenEditDialog] = React.useState(false);
+    const [editPostulation, setEditPostulation] = React.useState([])
+
 
     React.useEffect(() => {
         fetchData();
@@ -33,14 +37,30 @@ export default function Mespostulation({auth}) {
         }
     };
 
-    const handleEdit = (postulation) => {
+    const handleEdit = async (postulation) => {
         // Handle edit logic here
         console.log('Editing postulation:', postulation);
+        try {
+            const response = await axios.get('api/test_api', {
+                params: {
+                    user_id: auth.user.id,
+                    postulation_id: postulation
+                }
+            });
+            setEditPostulation(response.data);
+            setOpenEditDialog(true);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const handleDelete = (postulation) => {
         // Handle delete logic here
         console.log('Deleting postulation:', postulation);
+    };
+    const handleCloseEditDialog = () => {
+        setSelectedPostulation(null);
+        setOpenEditDialog(false);
     };
 
     const handleOpenDialog = (postulation) => {
@@ -80,7 +100,7 @@ export default function Mespostulation({auth}) {
                                 <TableCell align="right">{postulation.avancement_postulation}</TableCell>
                                 <TableCell align="right">{postulation.updated_at}</TableCell>
                                 <TableCell align="right">
-                                    <Button variant="outlined" onClick={() => handleEdit(postulation)}>
+                                    <Button variant="outlined" onClick={() => handleEdit(postulation.id)}>
                                         Edit
                                     </Button>
                                     <Button variant="outlined" onClick={() => handleOpenDialog(postulation)}>
@@ -105,6 +125,108 @@ export default function Mespostulation({auth}) {
                     <Button color="error" onClick={() => handleDelete(selectedPostulation)}>
                         Delete
                     </Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={openEditDialog} onClose={handleCloseEditDialog} maxWidth="xl">
+                <DialogTitle>Edit Postulation</DialogTitle>
+                <DialogContent>
+                    {editPostulation.map((postulation) => (
+                        <Form.Root
+                            className="FormRoot"
+                            action="/postulation"
+                            method="post"
+                        >
+                            <Form.Field className="FormField" name="Nom">
+                                <div style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-between'}}>
+                                    <Form.Label className="FormLabel">Nom</Form.Label>
+                                    <Form.Message className="FormMessage" match="valueMissing">
+                                        Entrez votre nom
+                                    </Form.Message>
+                                </div>
+                                <Form.Control asChild>
+                                    <input className="Input" type="text" defaultValue={postulation.nom}/>
+                                </Form.Control>
+                            </Form.Field>
+                            <Form.Field className="FormField" name="Prenom">
+                                <div style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-between'}}>
+                                    <Form.Label className="FormLabel">Prénom</Form.Label>
+                                    <Form.Message className="FormMessage" match="valueMissing">
+                                        Entrez votre Prénom
+                                    </Form.Message>
+                                </div>
+                                <Form.Control asChild>
+                                    <input className="Input" type="text" defaultValue={postulation.prenom}/>
+                                </Form.Control>
+                            </Form.Field>
+                            <Form.Field className="FormField" name="Mail">
+                                <div style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-between'}}>
+                                    <Form.Label className="FormLabel">Mail</Form.Label>
+                                    <Form.Message className="FormMessage" match="valueMissing">
+                                        Entrez une adresse mail valide
+                                    </Form.Message>
+                                </div>
+                                <Form.Control asChild>
+                                    <input className="Input" type="email" defaultValue={postulation.mail}/>
+                                </Form.Control>
+                            </Form.Field>
+                            <Form.Field name="Dropdown">
+                                <Form.Label className="FormLabel">Apprentissage</Form.Label>
+                                <Form.Message className="FormMessage" match="valueMissing">
+                                    Veuillez sélectionner un apprentissage
+                                </Form.Message>
+                                <Form.Control asChild>
+                                    <select name="Apprentissage" id="job" className="Input"
+                                            defaultValue={postulation.apprentissage}>
+                                        <option value="" disabled hidden>Veuillez choisir</option>
+                                        <option value="Informaticien">Informaticien (développement)</option>
+                                        <option value="Employer de commerce">Employer de commerce</option>
+                                    </select>
+                                </Form.Control>
+                            </Form.Field>
+                            <Form.Field className="FormField" name="file1">
+                                <div>
+                                    <Form.Label className="FormLabel">CV</Form.Label>
+                                    <Form.Message className="FormMessage" match="valueMissing">
+                                        Format PDF uniquement
+                                    </Form.Message>
+                                </div>
+                                <Form.Control asChild>
+                                    <input className="Input" type="file" accept=".pdf"/>
+                                </Form.Control>
+                            </Form.Field>
+                            <Form.Field className="FormField" name="file2">
+                                <div>
+                                    <Form.Label className="FormLabel">Lettre de motivation</Form.Label>
+                                    <Form.Message className="FormMessage" match="valueMissing">
+                                        Format PDF uniquement
+                                    </Form.Message>
+                                </div>
+                                <Form.Control asChild>
+                                    <input className="Input" type="file" accept=".pdf"/>
+                                </Form.Control>
+                            </Form.Field>
+                            <Form.Field className="FormField" name="file3">
+                                <div>
+                                    <Form.Label className="FormLabel">Vidéo de motivation</Form.Label>
+                                    <Form.Message className="FormMessage" match="valueMissing">
+                                        Format vidéo uniquement
+                                    </Form.Message>
+                                </div>
+                                <Form.Control asChild>
+                                    <input className="Input" type="file" accept="video/*"/>
+                                </Form.Control>
+                            </Form.Field>
+                            <Form.Submit asChild>
+                                <button className="Button" style={{marginTop: 10}}>
+                                    Envoyer la postulation
+                                </button>
+                            </Form.Submit>
+                        </Form.Root>
+                    ))}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseEditDialog}>Cancel</Button>
+                    <Button color="primary">Save</Button>
                 </DialogActions>
             </Dialog>
         </AuthenticatedLayout>

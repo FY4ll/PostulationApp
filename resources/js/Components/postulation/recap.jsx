@@ -6,6 +6,7 @@ export default function Recap({auth}) {
     const [numPostulations, setNumPostulations] = useState(null);
 
     useEffect(() => {
+        // permet de récuperer les postulation des utilisateur via l'id de l'utilisateur
         async function fetchNumPostulations() {
             try {
                 const response = await axios.get('/api/user/postulations/count', {

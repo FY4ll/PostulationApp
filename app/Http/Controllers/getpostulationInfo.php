@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 /**
- ce controlleur permet de faire les inner join pour inserer les données dans le tableau contenu dans Mespostulation
+ ce controlleur permet d'edit les postulation via un compte de type postulant
 */
 class getpostulationInfo extends Controller
 {
@@ -43,7 +43,7 @@ class getpostulationInfo extends Controller
         if(!request("postulation_id")){
             $userId = request('user_id');
             return DB::table('postulation_user')
-                ->select('postulations.apprentissage', 'postulations.created_at', 'postulations.updated_at', 'postulations.avancement_postulation', 'postulation_user.user_id')
+                ->select('postulations.apprentissage', 'postulations.created_at', 'postulations.updated_at', 'postulations.avancement_postulation', 'postulation_user.user_id', 'postulations.id')
                 ->join('postulations', 'postulations.id', '=', 'postulation_user.postulation_id')
                 ->where('postulation_user.user_id', $userId)
                 ->get();
@@ -53,7 +53,7 @@ class getpostulationInfo extends Controller
             $postulationId = request('postulation_id');
             return DB::table('postulation_user')
                 ->select('postulations.*', 'postulation_user.user_id')
-                ->join('postulation_user', 'postulations.id', '=', 'postulation_user.postulation_id')
+                ->join('postulations', 'postulations.id', '=', 'postulation_user.postulation_id')
                 ->where('user_id', $userId)
                 ->where('postulations.id', $postulationId)
                 ->get();
