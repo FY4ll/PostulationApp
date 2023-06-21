@@ -183,44 +183,6 @@ export default function Mespostulation({auth}) {
                                     </select>
                                 </Form.Control>
                             </Form.Field>
-                            <Form.Field className="FormField" name="file1">
-                                <div>
-                                    <Form.Label className="FormLabel">CV</Form.Label>
-                                    <Form.Message className="FormMessage" match="valueMissing">
-                                        Format PDF uniquement
-                                    </Form.Message>
-                                </div>
-                                <Form.Control asChild>
-                                    <input className="Input" type="file" accept=".pdf"/>
-                                </Form.Control>
-                            </Form.Field>
-                            <Form.Field className="FormField" name="file2">
-                                <div>
-                                    <Form.Label className="FormLabel">Lettre de motivation</Form.Label>
-                                    <Form.Message className="FormMessage" match="valueMissing">
-                                        Format PDF uniquement
-                                    </Form.Message>
-                                </div>
-                                <Form.Control asChild>
-                                    <input className="Input" type="file" accept=".pdf"/>
-                                </Form.Control>
-                            </Form.Field>
-                            <Form.Field className="FormField" name="file3">
-                                <div>
-                                    <Form.Label className="FormLabel">Vidéo de motivation</Form.Label>
-                                    <Form.Message className="FormMessage" match="valueMissing">
-                                        Format vidéo uniquement
-                                    </Form.Message>
-                                </div>
-                                <Form.Control asChild>
-                                    <input className="Input" type="file" accept="video/*"/>
-                                </Form.Control>
-                            </Form.Field>
-                            <Form.Submit asChild>
-                                <button className="Button" style={{marginTop: 10}}>
-                                    Envoyer la postulation
-                                </button>
-                            </Form.Submit>
                         </Form.Root>
                     ))}
                 </DialogContent>
