@@ -12,51 +12,46 @@ import axios from 'axios';
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from '@mui/material';
 
 export default function Mespostulation({auth}) {
-    const [data, setData] = React.useState([]);
-    const [open, setOpen] = React.useState(false);
+    const [postulations, setPostulations] = React.useState([]);
     const [selectedPostulation, setSelectedPostulation] = React.useState(null);
-
-    const handleEdit = (postulation) => {
-        setSelectedPostulation(postulation);
-        getContentPostulation()
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setSelectedPostulation(null);
-        setOpen(false);
-    };
-
-    async function getContentPostulation(data) {
-        try {
-            const response = await axios.get('/api/user/postulations_content', {
-                params: {
-                    user_id: auth.user.id,
-                },
-            });
-            const {data} = response;
-        } catch (error) {
-            console.error('Erreur lors de la récupération des données', error);
-        }
-    }
+    const [openDialog, setOpenDialog] = React.useState(false);
 
     React.useEffect(() => {
-        async function getDataOwnPostulation() {
-            try {
-                const response = await axios.get('/api/user/postulation/select', {
-                    params: {
-                        user_id: auth.user.id, // Remplacez "auth.user.id" par la variable contenant l'ID de l'utilisateur
-                    },
-                });
-                const {data} = response;
-                setData(data);
-            } catch (error) {
-                console.error('Erreur lors de la récupération des données', error);
-            }
-        }
-
-        getDataOwnPostulation();
+        fetchData();
     }, []);
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('api/test_api', {
+                params: {
+                    user_id: auth.user.id
+                }
+            });
+            setPostulations(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleEdit = (postulation) => {
+        // Handle edit logic here
+        console.log('Editing postulation:', postulation);
+    };
+
+    const handleDelete = (postulation) => {
+        // Handle delete logic here
+        console.log('Deleting postulation:', postulation);
+    };
+
+    const handleOpenDialog = (postulation) => {
+        setSelectedPostulation(postulation);
+        setOpenDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        setSelectedPostulation(null);
+        setOpenDialog(false);
+    };
 
     return (
         <AuthenticatedLayout
@@ -70,39 +65,45 @@ export default function Mespostulation({auth}) {
                         <TableRow>
                             <TableCell>Postulation</TableCell>
                             <TableCell align="right">Apprentissage</TableCell>
-                            <TableCell align="right">Date d'envoie</TableCell>
+                            <TableCell align="right">Date d'envoi</TableCell>
                             <TableCell align="right">Avancement</TableCell>
-                            <TableCell align="right">Dernière mise à jours</TableCell>
+                            <TableCell align="right">Dernière mise à jour</TableCell>
+                            <TableCell align="right">Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.map((item, index) => (
-                            <TableRow key={index} onClick={() => handleEdit(item)} style={{cursor: 'pointer'}}>
-                                <TableCell>{index}</TableCell>
-                                <TableCell>{item.apprentissage}</TableCell>
-                                <TableCell>{item.created_at}</TableCell>
-                                <TableCell>{item.avancement_postulation}</TableCell>
-                                <TableCell>{item.updated_at}</TableCell>
+                        {postulations.map((postulation, index) => (
+                            <TableRow key={postulation.id}>
+                                <TableCell>{index + 1}</TableCell>
+                                <TableCell>{postulation.apprentissage}</TableCell>
+                                <TableCell align="right">{postulation.created_at}</TableCell>
+                                <TableCell align="right">{postulation.avancement_postulation}</TableCell>
+                                <TableCell align="right">{postulation.updated_at}</TableCell>
+                                <TableCell align="right">
+                                    <Button variant="outlined" onClick={() => handleEdit(postulation)}>
+                                        Edit
+                                    </Button>
+                                    <Button variant="outlined" onClick={() => handleOpenDialog(postulation)}>
+                                        Delete
+                                    </Button>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
 
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Edit Postulation</DialogTitle>
+            {/* Delete Dialog */}
+            <Dialog open={openDialog} onClose={handleCloseDialog}>
+                <DialogTitle>Confirm Delete</DialogTitle>
                 <DialogContent>
-                    {/* Contenu du formulaire de modification */}
-                    {selectedPostulation && (
-                        <form>
-                            <h1> hello world</h1>
-                        </form>
-                    )}
+                    Are you sure you want to delete this postulation?
+                    {/* Add additional details about the postulation here if needed */}
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose} variant="contained" color="primary">
-                        Save
+                    <Button onClick={handleCloseDialog}>Cancel</Button>
+                    <Button color="error" onClick={() => handleDelete(selectedPostulation)}>
+                        Delete
                     </Button>
                 </DialogActions>
             </Dialog>
