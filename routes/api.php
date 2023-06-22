@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\getpostulationInfo;
 use App\Http\Controllers\PostulationController;
+use App\Http\Controllers\role_user_controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -33,3 +34,5 @@ Route::get('/user/postulations/count', function (Request $request) {
 Route::get('/postulation_user/select', [getpostulationInfo::class, 'show']);
 Route::post('/postulation_user/save', [getpostulationInfo::class, 'update']);
 Route::post('/postulation_user/delete', [getpostulationInfo::class, 'destroy']);
+// crud table role_user
+Route::get('/user_role/select', [role_user_controller::class, 'show']);
