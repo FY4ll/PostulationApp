@@ -1,13 +1,32 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import ApplicationLogo from '@/Components/LoginComponents/ApplicationLogo';
 import Dropdown from '@/Components/LoginComponents/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import {Link} from '@inertiajs/react';
+import axios from "axios";
 
 export default function Authenticated({user, header, children}) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const [userRole, setUserRole] = useState(null);
+    useEffect(() => {
+        getUserRole();
+    }, []); // Appel de getUserRole() une seule fois lors du montage du composant
 
+    const getUserRole = async () => {
+        try {
+            console.log(user.id)
+            const response = await axios.get('api/user_role/select', {
+                params: {
+                    user_id: user.id,
+                }
+            });
+            console.log(response.data[0].role_id);
+            setUserRole(response.data[0].role_id);
+        } catch (error) {
+            console.error(error);
+        }
+    };
     return (
         <div className="min-h-screen bg-gray-100">
             <nav className="bg-white border-b border-gray-100">
@@ -19,18 +38,28 @@ export default function Authenticated({user, header, children}) {
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800"/>
                                 </Link>
                             </div>
-
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
-                                </NavLink>
-                                <NavLink href={route('profile.edit')} active={route().current('profile.edit')}>
-                                    Profile
-                                </NavLink>
-                                <NavLink href={route('mespostulation')} active={route().current('mespostulation')}>
-                                    mes postulations
-                                </NavLink>
-                            </div>
+                            {userRole === 2 || userRole === 4 ? (
+                                <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                    <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                        Dashboard
+                                    </NavLink>
+                                    <NavLink href={route('profile.edit')} active={route().current('profile.edit')}>
+                                        Profile
+                                    </NavLink>
+                                </div>
+                            ) : (
+                                <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                    <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                        Dashboard
+                                    </NavLink>
+                                    <NavLink href={route('profile.edit')} active={route().current('profile.edit')}>
+                                        Profile
+                                    </NavLink>
+                                    <NavLink href={route('mespostulation')} active={route().current('mespostulation')}>
+                                        mes postulations
+                                    </NavLink>
+                                </div>
+                            )}
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
