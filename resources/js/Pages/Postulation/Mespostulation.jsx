@@ -10,15 +10,14 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from '@mui/material';
-import * as Form from '@radix-ui/react-form';
+import {Control, Field, Form, Label, Message} from '@radix-ui/react-form';
 
-export default function Mespostulation({auth}) {
+export default function MesPostulation({auth}) {
     const [postulations, setPostulations] = React.useState([]);
     const [selectedPostulation, setSelectedPostulation] = React.useState(null);
     const [openDialog, setOpenDialog] = React.useState(false);
     const [openEditDialog, setOpenEditDialog] = React.useState(false);
-    const [editPostulation, setEditPostulation] = React.useState([])
-
+    const [editPostulation, setEditPostulation] = React.useState([]);
 
     React.useEffect(() => {
         fetchData();
@@ -26,7 +25,7 @@ export default function Mespostulation({auth}) {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('api/test_api', {
+            const response = await axios.get('api/postulation_user/select', {
                 params: {
                     user_id: auth.user.id
                 }
@@ -38,10 +37,9 @@ export default function Mespostulation({auth}) {
     };
 
     const handleEdit = async (postulation) => {
-        // Handle edit logic here
         console.log('Editing postulation:', postulation);
         try {
-            const response = await axios.get('api/test_api', {
+            const response = await axios.get('api/postulation_user/select', {
                 params: {
                     user_id: auth.user.id,
                     postulation_id: postulation
@@ -54,13 +52,45 @@ export default function Mespostulation({auth}) {
         }
     };
 
-    const handleDelete = (postulation) => {
-        // Handle delete logic here
-        console.log('Deleting postulation:', postulation);
+    const handleDelete = async (postulation) => {
+        try {
+            console.log(postulation);
+            await axios.post('api/postulation_user/delete', null, {
+                params: {
+                    postulation_id: postulation
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
     };
+
     const handleCloseEditDialog = () => {
         setSelectedPostulation(null);
         setOpenEditDialog(false);
+        console.log('SAVED');
+    };
+
+    const handleSaveEditDialog = async (event, postulationId) => {
+        event.preventDefault();
+        setSelectedPostulation(null);
+        setOpenEditDialog(false);
+        const formData = new FormData(event.currentTarget);
+        const update = [formData.get('nom'), formData.get('prenom'), formData.get('mail')]
+        console.log(update)
+        try {
+            const response = await axios.post('api/postulation_user/save', null, {
+                params: {
+                    postulation_id: postulationId,
+                    name: formData.get('nom'),
+                    prenom: formData.get('prenom'),
+                    mail: formData.get('mail')
+                }
+            });
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const handleOpenDialog = (postulation) => {
@@ -76,9 +106,9 @@ export default function Mespostulation({auth}) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight"> Mes Postulation</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight"> Mes Postulations</h2>}
         >
-            <Head title="Mes postuations"/>
+            <Head title="Mes postulations"/>
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 650}} aria-label="simple table">
                     <TableHead>
@@ -103,7 +133,7 @@ export default function Mespostulation({auth}) {
                                     <Button variant="outlined" onClick={() => handleEdit(postulation.id)}>
                                         Edit
                                     </Button>
-                                    <Button variant="outlined" onClick={() => handleOpenDialog(postulation)}>
+                                    <Button variant="outlined" onClick={() => handleDelete(postulation.id)}>
                                         Delete
                                     </Button>
                                 </TableCell>
@@ -112,83 +142,63 @@ export default function Mespostulation({auth}) {
                     </TableBody>
                 </Table>
             </TableContainer>
-
-            {/* Delete Dialog */}
-            <Dialog open={openDialog} onClose={handleCloseDialog}>
-                <DialogTitle>Confirm Delete</DialogTitle>
-                <DialogContent>
-                    Are you sure you want to delete this postulation?
-                    {/* Add additional details about the postulation here if needed */}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseDialog}>Cancel</Button>
-                    <Button color="error" onClick={() => handleDelete(selectedPostulation)}>
-                        Delete
-                    </Button>
-                </DialogActions>
-            </Dialog>
             <Dialog open={openEditDialog} onClose={handleCloseEditDialog} maxWidth="xl">
                 <DialogTitle>Edit Postulation</DialogTitle>
                 <DialogContent>
                     {editPostulation.map((postulation) => (
-                        <Form.Root
+                        <Form
+                            key={postulation.id}
                             className="FormRoot"
-                            action="/postulation"
-                            method="post"
+                            onSubmit={(event) => handleSaveEditDialog(event, postulation.id)}
                         >
-                            <Form.Field className="FormField" name="Nom">
+                            <Field className="FormField">
                                 <div style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-between'}}>
-                                    <Form.Label className="FormLabel">Nom</Form.Label>
-                                    <Form.Message className="FormMessage" match="valueMissing">
+                                    <Label className="FormLabel" htmlFor="nom">
+                                        Nom
+                                    </Label>
+                                    <Message className="FormMessage" match="valueMissing">
                                         Entrez votre nom
-                                    </Form.Message>
+                                    </Message>
                                 </div>
-                                <Form.Control asChild>
-                                    <input className="Input" type="text" defaultValue={postulation.nom}/>
-                                </Form.Control>
-                            </Form.Field>
-                            <Form.Field className="FormField" name="Prenom">
+                                <Control asChild>
+                                    <input className="Input" type="text" defaultValue={postulation.nom} name="nom"
+                                           id="nom"/>
+                                </Control>
+                            </Field>
+                            <Field className="FormField">
                                 <div style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-between'}}>
-                                    <Form.Label className="FormLabel">Prénom</Form.Label>
-                                    <Form.Message className="FormMessage" match="valueMissing">
-                                        Entrez votre Prénom
-                                    </Form.Message>
+                                    <Label className="FormLabel" htmlFor="prenom">
+                                        Prénom
+                                    </Label>
+                                    <Message className="FormMessage" match="valueMissing">
+                                        Entrez votre prénom
+                                    </Message>
                                 </div>
-                                <Form.Control asChild>
-                                    <input className="Input" type="text" defaultValue={postulation.prenom}/>
-                                </Form.Control>
-                            </Form.Field>
-                            <Form.Field className="FormField" name="Mail">
+                                <Control asChild>
+                                    <input className="Input" type="text" defaultValue={postulation.prenom} name="prenom"
+                                           id="prenom"/>
+                                </Control>
+                            </Field>
+                            <Field className="FormField">
                                 <div style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-between'}}>
-                                    <Form.Label className="FormLabel">Mail</Form.Label>
-                                    <Form.Message className="FormMessage" match="valueMissing">
+                                    <Label className="FormLabel" htmlFor="mail">
+                                        Mail
+                                    </Label>
+                                    <Message className="FormMessage" match="valueMissing">
                                         Entrez une adresse mail valide
-                                    </Form.Message>
+                                    </Message>
                                 </div>
-                                <Form.Control asChild>
-                                    <input className="Input" type="email" defaultValue={postulation.mail}/>
-                                </Form.Control>
-                            </Form.Field>
-                            <Form.Field name="Dropdown">
-                                <Form.Label className="FormLabel">Apprentissage</Form.Label>
-                                <Form.Message className="FormMessage" match="valueMissing">
-                                    Veuillez sélectionner un apprentissage
-                                </Form.Message>
-                                <Form.Control asChild>
-                                    <select name="Apprentissage" id="job" className="Input"
-                                            defaultValue={postulation.apprentissage}>
-                                        <option value="" disabled hidden>Veuillez choisir</option>
-                                        <option value="Informaticien">Informaticien (développement)</option>
-                                        <option value="Employer de commerce">Employer de commerce</option>
-                                    </select>
-                                </Form.Control>
-                            </Form.Field>
-                        </Form.Root>
+                                <Control asChild>
+                                    <input className="Input" type="email" defaultValue={postulation.mail} name="mail"
+                                           id="mail"/>
+                                </Control>
+                            </Field>
+                            <button type="submit">Save</button>
+                        </Form>
                     ))}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseEditDialog}>Cancel</Button>
-                    <Button color="primary">Save</Button>
                 </DialogActions>
             </Dialog>
         </AuthenticatedLayout>

@@ -73,16 +73,15 @@ class getpostulationInfo extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
         $postulation = request('postulation_id');
-        $info = request('info');
         DB::table('postulations')
             ->where('id', $postulation)
             ->update([
-                'nom' => $info[nom],
-                'prenom' => $info-[prenom],
-                'mail' => $info[mail],
+                'nom' => request('name'),
+                'prenom' => request('prenom'),
+                'mail' => request('mail'),
                 'updated_at' => DB::raw('CURRENT_TIMESTAMP')
             ]);
 
