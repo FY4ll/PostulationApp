@@ -29,5 +29,7 @@ Route::get('/user/postulations/count', function (Request $request) {
     return response()->json(['numPostulations' => $postCounter]);
 });
 
-Route::get('/test_api', [getpostulationInfo::class, 'show']);
-
+// crud table postulation_user
+Route::get('/postulation_user/select', [getpostulationInfo::class, 'show']);
+Route::post('/postulation_user/save', [getpostulationInfo::class, 'update']);
+Route::post('/postulation_user/delete', [getpostulationInfo::class, 'destroy']);
