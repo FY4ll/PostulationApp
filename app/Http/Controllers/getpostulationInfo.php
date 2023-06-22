@@ -75,14 +75,37 @@ class getpostulationInfo extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $postulation = request('postulation_id');
+        $info = request('info');
+        DB::table('postulations')
+            ->where('id', $postulation)
+            ->update([
+                'nom' => $info[nom],
+                'prenom' => $info-[prenom],
+                'mail' => $info[mail],
+                'updated_at' => DB::raw('CURRENT_TIMESTAMP')
+            ]);
+
+        DB::table('postulation_user')
+            ->where('postulation_id', $postulation)
+            ->update([
+                'updated_at' => DB::raw('CURRENT_TIMESTAMP')
+            ]);
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request): void
     {
-        //
+        $postulation = Request('postulation_id');
+        DB::table('postulation_user')
+            ->where('postulation_id', $postulation)
+            ->delete();
+        DB::table('postulations')
+            ->where('id', $postulation)
+            ->delete();
+
     }
 }
