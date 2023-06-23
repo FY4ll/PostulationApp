@@ -33,8 +33,6 @@ export default function MesPostulation({auth}) {
     const handleDialog = (num) => {
         setPostNum(num);
         setDialogOpen(!dialogOpen);
-        console.log(postNum);
-
     };
 
     const handleDownload = async () => {
@@ -42,7 +40,7 @@ export default function MesPostulation({auth}) {
         try {
             const response = await axios.get('api/postulation/download/colaborateur', {
                 params: {
-                    postulation_id: postulations[postNum]
+                    postulation: postulations[postNum]
                 }
             });
         } catch (error) {
