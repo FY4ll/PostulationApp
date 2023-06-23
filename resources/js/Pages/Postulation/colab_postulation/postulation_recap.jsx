@@ -23,6 +23,7 @@ export default function MesPostulation({auth}) {
         try {
             const response = await axios.get('api/postulation_user/select/colaborateur');
             setPostulations(response.data);
+            console.log(response.data)
         } catch (error) {
             console.error(error);
         }
@@ -56,7 +57,7 @@ export default function MesPostulation({auth}) {
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>{postulation.nom}</TableCell>
                                 <TableCell align="right">{postulation.avancement_postulation}</TableCell>
-                                <TableCell align="right">{postulation.situation}</TableCell>
+                                <TableCell align="right">{postulation.preavis}</TableCell>
                                 <TableCell align="right">{postulation.created_at}</TableCell>
                                 <TableCell align="right">
                                     <Button variant="outlined" onClick={handleDialog}>

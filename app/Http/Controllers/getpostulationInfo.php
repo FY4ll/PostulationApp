@@ -66,11 +66,14 @@ class getpostulationInfo extends Controller
     // colaborateur request
     public function show_colaborateur_all_postulation()
     {
-        return DB::table('postulations')
+        return DB::table('users')
+            ->select(DB::raw('GROUP_CONCAT(users.name SEPARATOR ", ") as preavis'), 'postulations.*')
+            ->join('postulations_preavis', 'users.id', '=', 'postulations_preavis.colab_id')
+            ->join('postulations', 'postulations_preavis.postulation_id', '=', 'postulations.id')
+            ->whereColumn('colab_id', '=', 'users.id')
+            ->groupBy('postulations.id')
             ->get();
     }
-
-
     /**
      * Show the form for editing the specified resource.
      */
