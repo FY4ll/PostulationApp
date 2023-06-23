@@ -104,6 +104,10 @@ class getpostulationInfo extends Controller
             ]);
 
     }
+    public function download(Request $request)
+    {
+
+    }
 
     /**
      * Remove the specified resource from storage.
