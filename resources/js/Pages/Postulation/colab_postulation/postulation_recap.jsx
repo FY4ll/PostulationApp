@@ -31,7 +31,11 @@ export default function MesPostulation({auth}) {
             console.error(error);
         }
     };
-
+    const deletePostulation = (postulationId) => {
+        setPostulations((prevPostulations) =>
+            prevPostulations.filter((postulation) => postulation.id !== postulationId)
+        );
+    };
     const handleEdit = async (postulation) => {
         console.log('Editing postulation:', postulation);
         try {
@@ -56,6 +60,7 @@ export default function MesPostulation({auth}) {
                     postulation_id: postulation
                 }
             });
+            deletePostulation(postulation)
         } catch (error) {
             console.log(error);
         }
