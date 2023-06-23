@@ -45,6 +45,10 @@ export default function Authenticated({user, header, children}) {
                                     <NavLink href={route('profile.edit')} active={route().current('profile.edit')}>
                                         Profile
                                     </NavLink>
+                                    <NavLink href={route('postulation_recap')}
+                                             active={route().current('postulation_recap')}>
+                                        Postulations
+                                    </NavLink>
                                 </div>
                             ) : (
                                 <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
