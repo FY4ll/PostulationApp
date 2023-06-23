@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/react';
-import * as React from 'react';
+import React, {useEffect, useState} from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,10 +12,11 @@ import axios from 'axios';
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from '@mui/material';
 
 export default function MesPostulation({auth}) {
-    const [postulations, setPostulations] = React.useState([]);
-    const [dialogOpen, setDialogOpen] = React.useState(false);
+    const [postulations, setPostulations] = useState([]);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [postNum, setPostNum] = useState(null);
 
-    React.useEffect(() => {
+    useEffect(() => {
         fetchData();
     }, []);
 
@@ -23,20 +24,36 @@ export default function MesPostulation({auth}) {
         try {
             const response = await axios.get('api/postulation_user/select/colaborateur');
             setPostulations(response.data);
-            console.log(response.data)
+            console.log(response.data);
         } catch (error) {
             console.error(error);
         }
     };
 
-    const handleDialog = () => {
+    const handleDialog = (num) => {
+        setPostNum(num);
         setDialogOpen(!dialogOpen);
+        console.log(postNum);
+
+    };
+
+    const handleDownload = async () => {
+        console.log(postulations[postNum])
+        try {
+            const response = await axios.get('api/postulation/download/colaborateur', {
+                params: {
+                    postulation_id: postulations[postNum]
+                }
+            });
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight"> Mes Postulations</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Mes Postulations</h2>}
         >
             <Head title="Mes postulations"/>
             <TableContainer component={Paper}>
@@ -60,7 +77,7 @@ export default function MesPostulation({auth}) {
                                 <TableCell align="right">{postulation.preavis}</TableCell>
                                 <TableCell align="right">{postulation.created_at}</TableCell>
                                 <TableCell align="right">
-                                    <Button variant="outlined" onClick={handleDialog}>
+                                    <Button variant="outlined" onClick={() => handleDialog(index)}>
                                         ...
                                     </Button>
                                 </TableCell>
@@ -72,8 +89,10 @@ export default function MesPostulation({auth}) {
             <Dialog open={dialogOpen} onClose={handleDialog} maxWidth="xl">
                 <DialogTitle>Action</DialogTitle>
                 <DialogContent>
-                    <Button variant="outlined">Télécharger les fichiiers</Button>
-                    <Button variant="outlined">donner son préavis</Button>
+                    <Button variant="outlined" onClick={handleDownload}>Télécharger les fichiers</Button>
+                    <Button variant="outlined">
+                        Donner son préavis
+                    </Button>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleDialog}>Cancel</Button>
