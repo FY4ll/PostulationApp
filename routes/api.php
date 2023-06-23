@@ -37,3 +37,8 @@ Route::post('/postulation_user/save', [getpostulationInfo::class, 'update']);
 Route::post('/postulation_user/delete', [getpostulationInfo::class, 'destroy']);
 // crud table role_user
 Route::get('/user_role/select', [role_user_controller::class, 'show']);
+
+//route de download des fichier
+Route::get('/postulation/download/colaborateur', [getpostulationInfo::class, 'download']);
+
+
