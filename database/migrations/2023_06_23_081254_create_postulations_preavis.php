@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('postulation_preavis', function (Blueprint $table) {
+        Schema::create('postulations_preavis', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('postulation_id');
             $table->unsignedBigInteger('colab_id');
+            $table->char('resultat');
+            $table->longText('commentaire');
             $table->timestamps();
 
             $table->foreign('postulation_id')->references('id')->on('postulations')->onDelete('cascade');
