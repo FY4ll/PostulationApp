@@ -114,11 +114,10 @@ export default function MesPostulation({auth}) {
                     <TableHead>
                         <TableRow>
                             <TableCell>Postulation</TableCell>
-                            <TableCell align="right">nom</TableCell>
-                            <TableCell align="right">prenom</TableCell>
-                            <TableCell align="right">apprentissage</TableCell>
-                            <TableCell align="right">situation</TableCell>
-                            <TableCell align="right">Date</TableCell>
+                            <TableCell align="right">Nom Postulant</TableCell>
+                            <TableCell align="right">Status</TableCell>
+                            <TableCell align="right">Préavis</TableCell>
+                            <TableCell align="right">Date de postulation</TableCell>
                             <TableCell align="right">Actions</TableCell>
                         </TableRow>
                     </TableHead>
@@ -127,16 +126,12 @@ export default function MesPostulation({auth}) {
                             <TableRow key={postulation.id}>
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>{postulation.nom}</TableCell>
-                                <TableCell align="right">{postulation.prenom}</TableCell>
-                                <TableCell align="right">{postulation.apprentissage}</TableCell>
+                                <TableCell align="right">{postulation.avancement_postulation}</TableCell>
                                 <TableCell align="right">{postulation.situation}</TableCell>
                                 <TableCell align="right">{postulation.created_at}</TableCell>
                                 <TableCell align="right">
                                     <Button variant="outlined" onClick={() => handleEdit(postulation.id)}>
-                                        Edit
-                                    </Button>
-                                    <Button variant="outlined" onClick={() => handleDelete(postulation.id)}>
-                                        Delete
+                                        ...
                                     </Button>
                                 </TableCell>
                             </TableRow>
