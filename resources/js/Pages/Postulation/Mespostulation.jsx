@@ -72,7 +72,6 @@ export default function MesPostulation({auth}) {
     };
 
     const handleSaveEditDialog = async (event, postulationId) => {
-        event.preventDefault();
         setSelectedPostulation(null);
         setOpenEditDialog(false);
         const formData = new FormData(event.currentTarget);
