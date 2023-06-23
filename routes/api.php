@@ -31,7 +31,8 @@ Route::get('/user/postulations/count', function (Request $request) {
 });
 
 // crud table postulation_user
-Route::get('/postulation_user/select', [getpostulationInfo::class, 'show']);
+Route::get('/postulation_user/select', [getpostulationInfo::class, 'show_postulant']);
+Route::get('/postulation_user/select/colaborateur', [getpostulationInfo::class, 'show_colaborateur_all_postulation']);
 Route::post('/postulation_user/save', [getpostulationInfo::class, 'update']);
 Route::post('/postulation_user/delete', [getpostulationInfo::class, 'destroy']);
 // crud table role_user

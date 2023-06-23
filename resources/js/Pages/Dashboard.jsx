@@ -4,6 +4,7 @@ import Recap from '../Components/postulation/recap'; // Chemin vers votre fichie
 import React from "react";
 
 export default function Dashboard({auth}) {
+
     return (
         <AuthenticatedLayout
             user={auth.user}
