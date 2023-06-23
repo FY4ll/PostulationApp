@@ -15,7 +15,6 @@ export default function Authenticated({user, header, children}) {
 
     const getUserRole = async () => {
         try {
-            console.log(user.id)
             const response = await axios.get('api/user_role/select', {
                 params: {
                     user_id: user.id,
