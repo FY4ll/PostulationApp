@@ -46,10 +46,16 @@ Route::get('/postulation', function () {
         'user' => $user, // Passer les informations de l'utilisateur à votre composant React
     ]);
 })->middleware(['auth', 'verified'])->name('postulation');
-# Dashboard
+
+# mespostulationpage
 Route::get('/mespostulation', function () {
     return Inertia::render('Postulation/Mespostulation');
 })->middleware(['auth', 'verified'])->name('mespostulation');
+
+# recap postulation page (collaborateur)
+Route::get('/postulation_recap', function () {
+    return Inertia::render('Postulation/colab_postulation/postulation_recap');
+})->middleware(['auth', 'verified'])->name('postulation_recap');
 
 
 require __DIR__ . '/auth.php';
