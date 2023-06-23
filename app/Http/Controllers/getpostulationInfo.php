@@ -37,10 +37,12 @@ class getpostulationInfo extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+
+    // postulant request
+    public function show_postulant(Request $request)
     {
         /**  Permet de juste récupererles infromations du tableaux */
-        if(!request("postulation_id")){
+        if (!request("postulation_id")) {
             $userId = request('user_id');
             return DB::table('postulation_user')
                 ->select('postulations.apprentissage', 'postulations.created_at', 'postulations.updated_at', 'postulations.avancement_postulation', 'postulation_user.user_id', 'postulations.id')
@@ -48,7 +50,7 @@ class getpostulationInfo extends Controller
                 ->where('postulation_user.user_id', $userId)
                 ->get();
             /**  Permet d'envoyer toutes les infromations pour le formulaire d'édition */
-        }elseif (request("postulation_id")){
+        } elseif (request("postulation_id")) {
             $userId = request('user_id');
             $postulationId = request('postulation_id');
             return DB::table('postulation_user')
@@ -57,10 +59,17 @@ class getpostulationInfo extends Controller
                 ->where('user_id', $userId)
                 ->where('postulations.id', $postulationId)
                 ->get();
-        }else{
+        } else {
             return "Requete invalide";
         }
     }
+    // colaborateur request
+    public function show_colaborateur_all_postulation()
+    {
+        return DB::table('postulations')
+            ->get();
+    }
+
 
     /**
      * Show the form for editing the specified resource.
