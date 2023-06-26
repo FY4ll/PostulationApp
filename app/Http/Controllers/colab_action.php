@@ -44,6 +44,7 @@ class colab_action extends Controller
     public function edit(Request $request)
     {
 
+
     }
 
     /**

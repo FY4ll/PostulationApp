@@ -16,6 +16,7 @@ export default function MesPostulation({auth}) {
     const [postulations, setPostulations] = useState([]);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [postNum, setPostNum] = useState(null);
+    const [postid, setPostid] = useState(null);
 
     useEffect(() => {
         fetchData();
@@ -33,7 +34,10 @@ export default function MesPostulation({auth}) {
 
     const handleDialog = (num) => {
         setPostNum(num);
+        setPostid(postulations[postNum].id)
         setDialogOpen(!dialogOpen);
+
+
     };
 
     const handleDownload = async () => {
@@ -96,7 +100,7 @@ export default function MesPostulation({auth}) {
                 <DialogTitle>Action</DialogTitle>
                 <DialogContent>
                     <Button variant="outlined" onClick={handleDownload}>Télécharger les fichiers</Button>
-                    <Button variant="outlined" href={route('postulation_preavis/forms/}')}>
+                    <Button variant="outlined" href={route('postulation_preavis/forms', {id: postid})}>
                         Donner son préavis
                     </Button>
                 </DialogContent>
