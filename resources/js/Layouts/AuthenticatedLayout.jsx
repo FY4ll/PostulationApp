@@ -42,9 +42,9 @@ export default function Authenticated({user, header, children}) {
                                     <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                         Dashboard
                                     </NavLink>
-                                    <NavLink href={route('postulation_recap')}
-                                             active={route().current('postulation_recap')}>
-                                        Postulations
+                                    <NavLink href={route('postulation_preavis')}
+                                             active={route().current('postulation_preavis')}>
+                                        Préavis
                                     </NavLink>
                                     <NavLink href={route('profile.edit')} active={route().current('profile.edit')}>
                                         Profile

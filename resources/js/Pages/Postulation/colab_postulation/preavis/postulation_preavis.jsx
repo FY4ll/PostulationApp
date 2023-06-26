@@ -55,12 +55,13 @@ export default function MesPostulation({auth}) {
         }
     };
 
+
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Mes Postulations</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Mes Préavis</h2>}
         >
-            <Head title="Mes postulations"/>
+            <Head title="Mes Préavis"/>
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 650}} aria-label="simple table">
                     <TableHead>
@@ -95,7 +96,7 @@ export default function MesPostulation({auth}) {
                 <DialogTitle>Action</DialogTitle>
                 <DialogContent>
                     <Button variant="outlined" onClick={handleDownload}>Télécharger les fichiers</Button>
-                    <Button variant="outlined">
+                    <Button variant="outlined" href={route('postulation_preavis/forms')}>
                         Donner son préavis
                     </Button>
                 </DialogContent>
