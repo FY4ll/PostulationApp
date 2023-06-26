@@ -52,10 +52,15 @@ Route::get('/mespostulation', function () {
     return Inertia::render('Postulation/Mespostulation');
 })->middleware(['auth', 'verified'])->name('mespostulation');
 
-# recap postulation page (collaborateur)
-Route::get('/postulation_recap', function () {
-    return Inertia::render('Postulation/colab_postulation/postulation_recap');
-})->middleware(['auth', 'verified'])->name('postulation_recap');
+# preavis postulation page (collaborateur)
+Route::get('/postulation_preavis', function () {
+    return Inertia::render('Postulation/colab_postulation/preavis/postulation_preavis');
+})->middleware(['auth', 'verified'])->name('postulation_preavis');
+
+// preavis formulaire
+Route::get('/postulation_preavis/forms', function () {
+    return Inertia::render('Postulation/colab_postulation/preavis/preavis_forms');
+})->middleware(['auth', 'verified'])->name('postulation_preavis/forms');
 
 
 require __DIR__ . '/auth.php';
