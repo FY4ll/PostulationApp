@@ -30,6 +30,7 @@
         "@radix-ui/react-form": "^0.0.2",
         "@radix-ui/react-popover": "1.0.5",
         "@radix-ui/react-radio-group": "^1.1.2",
+        "file-saver": "^2.0.5",
         "primereact": "^9.4.0",
         "radix-ui": "^1.0.1",
         "react-bootstrap": "^2.7.4",
