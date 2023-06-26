@@ -39,9 +39,9 @@ Route::post('/postulation_user/delete', [getpostulationInfo::class, 'destroy']);
 Route::get('/user_role/select', [role_user_controller::class, 'show']);
 
 //route de download des fichier
-Route::get('/postulation/download/colaborateur', function () {
-    $cheminFichier = storage_path('postulations/test_zest_LM.pdf');
-    $nomFichier = 'test_zest_LM.pdf';
+Route::get('/postulation/download/colaborateur', function (Request $request) {
+    $cheminFichier = storage_path('postulations/'. Request('filename'));
+    $nomFichier = Request('filename');
     return response()->download($cheminFichier, $nomFichier);
 });
 

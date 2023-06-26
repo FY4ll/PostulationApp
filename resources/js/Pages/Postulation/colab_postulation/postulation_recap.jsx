@@ -37,17 +37,19 @@ export default function MesPostulation({auth}) {
     };
 
     const handleDownload = async () => {
+        console.log(postulations[postNum].cv_path)
         try {
-            const response = await axios.get('api/postulation/download/colaborateur', {
-                responseType: 'blob', // Spécifie le type de réponse attendue comme un blob
-            });
+            const nomsFichiers = [postulations[postNum].cv_path, postulations[postNum].motivation_path, postulations[postNum].video_path];
+            for (const nomFichier of nomsFichiers) {
+                const response = await axios.get(`api/postulation/download/colaborateur`, {
+                    responseType: 'blob',
+                    params: {
+                        filename: nomFichier
+                    }
+                });
 
-            const dispositionHeader = response.headers['content-disposition'];
-            const nomFichier = dispositionHeader
-                ? dispositionHeader.split('filename=')[1].replace(/"/g, '')
-                : 'TEST.pdf';
-
-            saveAs(new Blob([response.data]), nomFichier);
+                saveAs(new Blob([response.data]), nomFichier);
+            }
         } catch (error) {
             console.log(error);
         }
