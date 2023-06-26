@@ -30,7 +30,6 @@ export default function MesPostulation({auth}) {
             console.error(error);
         }
     };
-    files
 
     const handleDialog = (num) => {
         setPostNum(num);
