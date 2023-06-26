@@ -9,6 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
+import {saveAs} from 'file-saver';
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from '@mui/material';
 
 export default function MesPostulation({auth}) {
@@ -36,15 +37,19 @@ export default function MesPostulation({auth}) {
     };
 
     const handleDownload = async () => {
-        console.log(postulations[postNum])
         try {
             const response = await axios.get('api/postulation/download/colaborateur', {
-                params: {
-                    postulation: postulations[postNum]
-                }
+                responseType: 'blob', // Spécifie le type de réponse attendue comme un blob
             });
+
+            const dispositionHeader = response.headers['content-disposition'];
+            const nomFichier = dispositionHeader
+                ? dispositionHeader.split('filename=')[1].replace(/"/g, '')
+                : 'TEST.pdf';
+
+            saveAs(new Blob([response.data]), nomFichier);
         } catch (error) {
-            console.error(error);
+            console.log(error);
         }
     };
 

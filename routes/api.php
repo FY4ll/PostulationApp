@@ -6,7 +6,6 @@ use App\Http\Controllers\role_user_controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,8 +39,12 @@ Route::post('/postulation_user/delete', [getpostulationInfo::class, 'destroy']);
 Route::get('/user_role/select', [role_user_controller::class, 'show']);
 
 //route de download des fichier
-Route::get('/postulation/download/colaborateur', function (){
-    Storage::download('eh_BTUIJ_CV.pdf', "test");
+Route::get('/postulation/download/colaborateur', function () {
+    $cheminFichier = storage_path('postulations/test_zest_LM.pdf');
+    $nomFichier = 'test_zest_LM.pdf';
+    return response()->download($cheminFichier, $nomFichier);
 });
+
+
 
 
