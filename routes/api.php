@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\colab_action;
 use App\Http\Controllers\getpostulationInfo;
 use App\Http\Controllers\PostulationController;
 use App\Http\Controllers\role_user_controller;
@@ -44,6 +45,9 @@ Route::get('/postulation/download/colaborateur', function (Request $request) {
     $nomFichier = Request('filename');
     return response()->download($cheminFichier, $nomFichier);
 });
+// route pour donner un préavis
+Route::post('/colaborateur/preavis_form/send', [colab_action::class, 'edit']);
+
 
 
 
