@@ -2,68 +2,66 @@
 
 ## Explication
 
-### Résumer du projet
+### Résumé du projet
 
-C'est un projet developper en react et laravel à des fins d'entrainement ainsi que de peut être plainifier le
-developement
-d'une application de plus grand ampleur dans le même voie.
+C'est un projet développé en [React](https://www.google.com/search?q=React)
+et [Laravel](https://www.google.com/search?q=Laravel) à des fins d'entraînement ainsi que potentiellement pour planifier
+le développement d'une application de plus grande envergure dans la même voie.
 
-### L'utilisation
+### Utilisation
 
-C'est une application web qui permet de manager et de trier les postulations des entreprise afin de rendre cette tache
-moin compliquer et plus ordoné avec un affichage simple, des roles simple. Le postulant de l'entreprise à un dashboard
-qui vas lui expliquer l'avancement de sa postulation ainsi que les futures étapes. Les colaborateurs qui ont accès à
-cette application
-ont un dashboard complet avec des tableau récapitulatif ainsi que des tableau plus déveloper avec plus d'infromation
-il y'a aussi des parties formulaire afin de rendre l'admistation plus simple et beaucoup plus efficiente
+C'est une application web qui permet de gérer et trier les postulations des entreprises afin de rendre cette tâche moins
+compliquée et mieux organisée. Elle offre un affichage simple et des rôles clairs. Les postulants d'entreprises ont un
+tableau de bord leur permettant de suivre l'avancement de leur candidature et les étapes à venir. Les collaborateurs qui
+ont accès à cette application disposent d'un tableau de bord complet avec des tableaux récapitulatifs et des tableaux
+plus détaillés contenant plus d'informations. Des formulaires sont également disponibles pour simplifier et rendre
+l'administration plus efficace.
 
-## Developement
+## Développement
 
-### prérequis
+### Prérequis
 
-pour lancer cette application il vous faudra laravel 10, php 8.1 ainsi que react 18.2 ou plus ainsi que vitejs. suite à
-cela vous serez capable de
-télécharger tout les dépendance trouver dans package.json.
+Pour lancer cette application, vous aurez besoin
+de [Laravel 10](https://www.google.com/search?q=Laravel%2010), [PHP 8.1](https://www.google.com/search?q=PHP%208.1), [React 18.2](https://www.google.com/search?q=React%2018.2)
+ou plus ainsi que [ViteJS](https://www.google.com/search?q=ViteJS). Suite à cela, vous serez capable de télécharger
+toutes les dépendances trouvées dans package.json.
 
-Veuillez noter que cette application ne comprends pas de design pousser, le developpement à été concentrer sur le coté
-serveur!
+Veuillez noter que cette application n'a pas de design poussé. Le développement a été concentré sur le côté serveur !
 
-### traitement des données/ mise en place de la base de données
+### Traitement des données / mise en place de la base de données
 
-laravel offre un systeme de migration asser simple ce qui vous permet de récuperer tout le shéma de ma base de données
-en une seul commande
-
+Laravel offre un système de migration assez simple qui vous permet de récupérer tout le schéma de ma base de données en
+une seule commande :
 ```bash
 php artisan migrate
 ```
 
-dans la table role vous allez trouve tout les roles disponible et vous pouvez les modifiers à votre guise.
-NOTE: veuillez modifier uniquement les noms car le système à été régler via l'id des roles. Si vous voulez modifier le
-système
-d'affichage selon les roles, il vous faudra aller dans le fcher authenticatedLayout et modifier la condition qui permet
-l'affichge
+Dans la table des rôles, vous trouverez tous les rôles disponibles et vous pouvez les modifier à votre guise. Notez que
+vous ne devez modifier que les noms, car le système a été réglé via l'ID des rôles. Si vous voulez modifier le système
+d'affichage selon les rôles, il vous faudra aller dans le fichier `authenticatedLayout` et modifier la condition qui
+permet l'affichage.
 
-### lancement du projet
+### Lancement du projet
 
-pour lancer le projet il vous faudra php artisan ainsi que npm.
+Pour lancer le projet, il vous faudra `php artisan` ainsi que `npm`.
 
-Pour le serveur php: veuillez entrer la commende
+Pour le serveur PHP, veuillez entrer la commande :
 
 ``` bash 
 php artisan serve 
 ```
 
-Pour le serveur react:
+Pour le serveur React :
 
 ```bash
 npm run dev
 ```
 
-### les routes
+### Les routes
 
-si vous voulez ajouter ou modifier des routes il vous faut aller dans web.php. pour le rendu des pages JSX j'ai utilise
-inertia un librairie permetant de faire le rendu d'un seul fichier react.
-Ce qui permet la liaison entre le back-end et le front-end.
+Si vous voulez ajouter ou modifier des routes, il vous faut aller dans `web.php`. Pour le rendu des pages JSX, j'ai
+utilisé Inertia, une librairie permettant de faire le rendu d'un seul fichier React. Ce qui permet la liaison entre le
+back-end et le front-end.
 
 ### dictionnaire de donnée
 
