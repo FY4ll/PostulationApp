@@ -2,6 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/react';
 import React, {useState} from 'react';
 import {Button, FormControl, InputLabel, MenuItem, Select, TextField} from '@mui/material';
+import axios from "axios";
 
 export default function MesPostulation({auth}) {
     const [formData, setFormData] = useState({
@@ -9,15 +10,13 @@ export default function MesPostulation({auth}) {
         explication: '',
     });
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Récupérer les valeurs du formulaire
+    const handleSubmit = async (event) => {
         const {validPostulation, explication} = formData;
-
-        // Ajoutez ici votre logique de soumission du formulaire
-
-        console.log('Valeur du champ "Valider la postulation" :', validPostulation);
-        console.log('Valeur du champ "Explication de votre choix" :', explication);
+        try {
+            await axios.post('api/colaborateur/preavis_form/send');
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const handleChange = (event) => {
@@ -36,7 +35,7 @@ export default function MesPostulation({auth}) {
             <Head title="Mes Préavis"/>
             <h1>hello world</h1>
             <div style={{marginTop: '2rem'}}>
-                <form className="FormRoot" action="/" method="post" onSubmit={handleSubmit}>
+                <form className="FormRoot" action="/postulation_preavis" method="get" onSubmit={handleSubmit}>
                     <FormControl required fullWidth>
                         <InputLabel id="valid-postulation-label">Valider la postulation</InputLabel>
                         <Select
@@ -72,7 +71,7 @@ export default function MesPostulation({auth}) {
                     </FormControl>
 
                     <Button type="submit" variant="contained" color="primary" style={{marginTop: '1rem'}}>
-                        Envoyer la postulation
+                        Envoyer le préavis
                     </Button>
                 </form>
             </div>
