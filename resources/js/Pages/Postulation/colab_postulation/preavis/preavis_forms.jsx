@@ -33,7 +33,6 @@ export default function MesPostulation({auth}) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Mes Préavis</h2>}
         >
             <Head title="Mes Préavis"/>
-            <h1>hello world</h1>
             <div style={{marginTop: '2rem'}}>
                 <form className="FormRoot" action="/postulation_preavis" method="get" onSubmit={handleSubmit}>
                     <FormControl required fullWidth>
@@ -55,7 +54,6 @@ export default function MesPostulation({auth}) {
                             <MenuItem value="Inapte">Inapte</MenuItem>
                         </Select>
                     </FormControl>
-
                     <FormControl fullWidth style={{marginTop: '1rem'}}>
                         <TextField
                             className="FormField"
