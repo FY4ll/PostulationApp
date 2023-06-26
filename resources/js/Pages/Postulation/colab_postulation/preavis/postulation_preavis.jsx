@@ -96,7 +96,7 @@ export default function MesPostulation({auth}) {
                 <DialogTitle>Action</DialogTitle>
                 <DialogContent>
                     <Button variant="outlined" onClick={handleDownload}>Télécharger les fichiers</Button>
-                    <Button variant="outlined" href={route('postulation_preavis/forms')}>
+                    <Button variant="outlined" href={route('postulation_preavis/forms/}')}>
                         Donner son préavis
                     </Button>
                 </DialogContent>
