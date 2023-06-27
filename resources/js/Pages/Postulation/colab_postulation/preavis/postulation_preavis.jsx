@@ -10,11 +10,27 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import {saveAs} from 'file-saver';
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from '@mui/material';
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    TextField
+} from '@mui/material';
 
 export default function MesPostulation({auth}) {
+    const [formData, setFormData] = useState({
+        validPostulation: '',
+        explication: '',
+    });
     const [postulations, setPostulations] = useState([]);
-    const [dialogOpen, setDialogOpen] = useState(false);
+    const [dialogOpenAction, setDialogOpenAction] = useState(false);
+    const [dialogOpenPreavis, setDialogOpenPreavis] = useState(false);
     const [postNum, setPostNum] = useState(null);
     const [postid, setPostid] = useState(null);
 
@@ -32,12 +48,15 @@ export default function MesPostulation({auth}) {
         }
     };
 
-    const handleDialog = (num) => {
+    const handleDialogAction = (num) => {
         setPostNum(num);
         setPostid(postulations[postNum].id)
-        setDialogOpen(!dialogOpen);
+        setDialogOpenAction(!dialogOpenAction);
 
 
+    };
+    const handleDialogPreavForm = () => {
+        setDialogOpenPreavis(!dialogOpenPreavis);
     };
 
     const handleDownload = async () => {
@@ -56,6 +75,23 @@ export default function MesPostulation({auth}) {
             }
         } catch (error) {
             console.log(error);
+        }
+    };
+    const handleChange = (event) => {
+        const {name, value} = event.target;
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: value,
+        }));
+    };
+    const handleSubmit = async (event) => {
+        handleDialogPreavForm()
+        const {validPostulation, explication} = formData;
+        console.log("hello world")
+        try {
+            await axios.post('api/colaborateur/preavis_form/send');
+        } catch (error) {
+            console.error(error);
         }
     };
 
@@ -87,7 +123,7 @@ export default function MesPostulation({auth}) {
                                 <TableCell align="right">{postulation.preavis}</TableCell>
                                 <TableCell align="right">{postulation.created_at}</TableCell>
                                 <TableCell align="right">
-                                    <Button variant="outlined" onClick={() => handleDialog(index)}>
+                                    <Button variant="outlined" onClick={() => handleDialogAction(index)}>
                                         ...
                                     </Button>
                                 </TableCell>
@@ -96,16 +132,57 @@ export default function MesPostulation({auth}) {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Dialog open={dialogOpen} onClose={handleDialog} maxWidth="xl">
+            <Dialog open={dialogOpenAction} onClose={handleDialogAction} maxWidth="xl">
                 <DialogTitle>Action</DialogTitle>
                 <DialogContent>
                     <Button variant="outlined" onClick={handleDownload}>Télécharger les fichiers</Button>
-                    <Button variant="outlined" href={route('postulation_preavis/forms', {id: postid})}>
+                    <Button variant="outlined" onClick={handleDialogPreavForm}>
                         Donner son préavis
                     </Button>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleDialog}>Cancel</Button>
+                    <Button onClick={handleDialogAction}>Cancel</Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={dialogOpenPreavis} onClose={handleDialogPreavForm} maxWidth="xl">
+                <DialogTitle>Donner son préavis</DialogTitle>
+                <DialogContent>
+                    <FormControl required fullWidth>
+                        <InputLabel id="valid-postulation-label">Valider la postulation</InputLabel>
+                        <Select
+                            labelId="valid-postulation-label"
+                            id="valid-postulation"
+                            name="validPostulation"
+                            className="Input"
+                            required
+                            value={formData.validPostulation}
+                            onChange={handleChange}
+                        >
+                            <MenuItem value="" disabled>
+                                Veuillez choisir
+                            </MenuItem>
+                            <MenuItem value="Apte">Apte</MenuItem>
+                            <MenuItem value="Inapte">Inapte</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <FormControl fullWidth style={{marginTop: '1rem'}}>
+                        <TextField
+                            className="FormField"
+                            name="explication"
+                            label="Explication de votre choix"
+                            multiline
+                            rows={6}
+                            required
+                            fullWidth
+                            value={formData.explication}
+                            onChange={handleChange}
+                        />
+                    </FormControl>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleSubmit} variant="contained" color="primary">
+                        Envoyer le préavis
+                    </Button>
                 </DialogActions>
             </Dialog>
         </AuthenticatedLayout>
