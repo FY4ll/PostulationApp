@@ -87,9 +87,15 @@ export default function MesPostulation({auth}) {
     const handleSubmit = async (event) => {
         handleDialogPreavForm()
         const {validPostulation, explication} = formData;
-        console.log("hello world")
+        console.log(postid)
         try {
-            await axios.post('api/colaborateur/preavis_form/send');
+            await axios.post('api/colaborateur/preavis_form/send', null, {
+                params: {
+                    id: postid,
+                    commentaire: explication,
+                    status: validPostulation
+                }
+            });
         } catch (error) {
             console.error(error);
         }

@@ -45,8 +45,9 @@ Route::get('/postulation/download/colaborateur', function (Request $request) {
     $nomFichier = Request('filename');
     return response()->download($cheminFichier, $nomFichier);
 });
+
 // route pour donner un préavis
-Route::post('/colaborateur/preavis_form/send', [colab_action::class, 'edit']);
+Route::post('/colaborateur/preavis_form/send', [colab_action::class, 'Update_preavis']);
 
 
 
