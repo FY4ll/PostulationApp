@@ -1,5 +1,5 @@
 # Postulation App
-(this project won't be finished)
+ce projet nest plus en development
 ## Explication
 
 ### Résumé du projet
